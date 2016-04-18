@@ -1,0 +1,83 @@
+from flask import *
+import json
+import os
+import instagram
+import algorithms
+
+app = Flask(__name__)
+app.debug = True
+
+def save_access_token(access_token):
+    assert(access_token is not None)
+    data = {
+        "access_token": access_token
+    }
+    with open('config.json', 'w') as file:
+        json.dump(data, file)
+
+def load_access_token():
+    try:
+        with open('config.json', 'r') as file:
+            return json.load(file)["access_token"]
+    except:
+        # can't open the file, so we don't have a token
+        return None
+
+@app.route("/user")
+def serve_user():
+    code = request.args["code"]
+    if code is not None:
+        # get the access token, we just finished signing in
+        access_token = instagram.load_access_token(code)
+        save_access_token(access_token)
+    else:
+        # ensure we already have an access token
+        assert(load_access_token() is not None)
+    
+    return render_template('user.html')
+
+@app.route("/stream/<user>")
+def serve_stream(user):
+    access_token = load_access_token()
+    
+    if access_token is None:
+        return render_template('error.html', message="You are not signed in.")
+    
+    client = instagram.InstagramClient(access_token)
+    photos = client.get_photos_for_user(user)
+    return render_template('stream.html', photos=photos)
+
+@app.route("/photo/<id>")
+def serve_photo(id):
+    access_token = load_access_token()
+    
+    if access_token is None:
+        return render_template('error.html', message="You are not signed in.")
+    
+    client = instagram.InstagramClient(access_token)
+    photo = client.get_photo_info(id)
+    
+    return render_template('photo.html', photo=photo)
+
+@app.route("/analyzeColor")
+def serve_analysis():
+    url = request.args["url"]
+    ident = request.args["id"]
+    assert(url is not None)
+    return json.dumps({
+        "color": algorithms.find_primary_color(url),
+        "identifier": ident
+    })
+
+@app.route("/")
+def serve_root():
+    if load_access_token() is None:
+        # sign in if we don't have an access token
+        return render_template('index.html', auth_url=instagram.get_sign_in_url())
+    else:
+        # we're already signed in!
+        # redirect to user chooser
+        return redirect("/user", code=302)
+
+if __name__ == "__main__":
+    app.run()

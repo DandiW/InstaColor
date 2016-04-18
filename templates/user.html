@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+<head>
+	
+	<script type="text/javascript">
+		function viewStream() {
+			var nameField = document.getElementById("name");
+			window.location = "/stream/" + nameField.innerText;
+		}
+	</script>
+</head>
+
+<body>
+	<p>Type in the name of the user you want to visualize:</p>
+	<input id="name" type="text" />
+	<button onclick="viewStream()">Submit</button>
+</body>
+</html>

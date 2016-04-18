@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" href="/static/style.css" type="text/css" media="screen" />
+	
+	<script type="text/javascript">
+		function pageLoaded() {
+			var elements = document.getElementsByClassName("frame");
+			for (var i = 0; i < elements.length; i++) {
+				var element = elements[i];
+				var ident = element.id;
+				var thumbnailURL = element.getAttribute("data-thumbnailURL");
+				
+				var request = new XMLHttpRequest();
+				request.addEventListener("load", function() {
+					var response = JSON.parse(this.responseText);
+					var color = response.color;
+					document.getElementById(response.identifier).style.backgroundColor = color;
+				});
+				request.open("GET", "/analyzeColor?id=" + ident + "&url=" + encodeURIComponent(thumbnailURL));
+				request.send();
+			}
+		}
+		
+		function loadPhoto(id) {
+			window.location = "/photo/" + id;
+		}
+	</script>
+</head>
+
+<body onload="pageLoaded()">
+	{% for photo in photos %}
+	<a href="javascript:loadPhoto('{{ photo.identifier }}')">
+		<div id="{{ photo.identifier }}" data-thumbnailURL="{{ photo.thumbnail_url }}" class="frame"></div>
+	</a>
+	{% endfor %}
+</body>
+</html>
