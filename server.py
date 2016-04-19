@@ -25,9 +25,9 @@ def load_access_token():
 
 @app.route("/user")
 def serve_user():
-    code = request.args["code"]
-    if code is not None:
+    if "code" in request.args:
         # get the access token, we just finished signing in
+        code = request.args["code"]
         access_token = instagram.load_access_token(code)
         save_access_token(access_token)
     else:

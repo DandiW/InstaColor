@@ -1,18 +1,14 @@
 <!doctype html>
 <html>
 <head>
-	
-	<script type="text/javascript">
-		function viewStream() {
-			var nameField = document.getElementById("name");
-			window.location = "/stream/" + nameField.innerText;
-		}
-	</script>
+	<link rel="stylesheet" href="/static/style.css" type="text/css" />
 </head>
 
 <body>
-	<p>Type in the name of the user you want to visualize:</p>
-	<input id="name" type="text" />
-	<button onclick="viewStream()">Submit</button>
+	<div id="container">
+		<h1>Instagram Mine</h1>
+		<p>In Sandbox mode, only the timeline of the logged-in user can be viewed. This is a limitation of the Instagram API.</p>
+		<a class="button" href="/stream/self">View my feed</a>
+	</div>
 </body>
 </html>

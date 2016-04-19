@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-	<link rel="stylesheet" href="/static/style.css" type="text/css" media="screen" />
+	<link rel="stylesheet" href="/static/style.css" type="text/css" />
 	
 	<script type="text/javascript">
 		function pageLoaded() {
@@ -29,10 +29,12 @@
 </head>
 
 <body onload="pageLoaded()">
-	{% for photo in photos %}
-	<a href="javascript:loadPhoto('{{ photo.identifier }}')">
-		<div id="{{ photo.identifier }}" data-thumbnailURL="{{ photo.thumbnail_url }}" class="frame"></div>
-	</a>
-	{% endfor %}
+	<div id="container">
+		{% for photo in photos %}
+		<a href="javascript:loadPhoto('{{ photo.identifier }}')">
+			<div id="{{ photo.identifier }}" data-thumbnailURL="{{ photo.thumbnail_url }}" class="frame"></div>
+		</a>
+		{% endfor %}
+	</div>
 </body>
 </html>

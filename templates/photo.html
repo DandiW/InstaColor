@@ -1,12 +1,13 @@
 <!doctype html>
 <html>
 <head>
-	
+	<link rel="stylesheet" href="/static/style.css" type="text/css" />
 </head>
 
 <body>
-	<p>Photo</p>
-	<img src="{{ photo.standard_resolution_url }}" />
-	<p>Filter: {{ photo.filter }}</p>
+	<div id="container">
+		<img src="{{ photo.standard_resolution_url }}" />
+		<p>Filter: {{ photo.filter }}</p>
+	</div>
 </body>
 </html>

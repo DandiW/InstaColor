@@ -1,3 +1,40 @@
+body {
+	background-color: #EBE5DA;
+	margin-top: 60px;
+	font-family: -webkit-system-font, Helvetica, Arial, sans-serif;
+}
 div.frame {
 	height: 24px;
+	-webkit-transition: background-color 200ms linear;
+}
+p {
+	line-height: 1.4em;
+	margin-bottom: 18px;
+}
+div#container {
+	background-color: white;
+	box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+	width: 640px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 20px;
+}
+div#container *:first-child {
+	margin-top: 0;
+}
+div#container h1 {
+	font-weight: 200;
+	text-align: center;
+	color: #76533D;
+}
+a.button {
+	color: #76533D;
+	border: 1px solid #76533D;
+	padding: 6px 10px;
+	border-radius: 8px;
+	text-decoration: none;
+	background-color: #E6DFD1;
+}
+a:hover {
+	color: black;
 }
