@@ -69,6 +69,11 @@ def serve_analysis():
         "identifier": ident
     })
 
+@app.route("/signOut")
+def serve_sign_out():
+    os.remove("config.json")
+    return redirect("/", code=302)
+
 @app.route("/")
 def serve_root():
     if load_access_token() is None:

@@ -38,3 +38,14 @@ a.button {
 a:hover {
 	color: black;
 }
+div#footer p {
+	text-align: center;
+	font-size: 13px;
+}
+div#footer p a {
+	color: #76533D;
+	text-decoration: none;
+}
+div#footer p a:hover {
+	text-decoration: underline;
+}
