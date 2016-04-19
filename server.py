@@ -41,7 +41,7 @@ def serve_stream(user):
     access_token = load_access_token()
     
     if access_token is None:
-        return render_template('error.html', message="You are not signed in.")
+        return redirect("/", code=302)
     
     client = instagram.InstagramClient(access_token)
     photos = client.get_photos_for_user(user)
