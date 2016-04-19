@@ -8,11 +8,12 @@ REDIRECT="http://localhost:5000/user"
 ENCODED_REDIRECT="http%3A%2F%2Flocalhost%3A5000%2Fuser"
 
 class Photo:
-    def __init__(self, identifier, thumbnail_url, standard_resolution_url, filter_name):
+    def __init__(self, identifier, thumbnail_url, standard_resolution_url, filter_name, caption):
         self.identifier = identifier
         self.thumbnail_url = thumbnail_url
         self.standard_resolution_url = standard_resolution_url
         self.filter = filter_name
+        self.caption = caption
 
 class InstagramClient:
     def __init__(self, token):
@@ -23,7 +24,8 @@ class InstagramClient:
         standard_res_url = data["images"]["standard_resolution"]["url"]
         filter_name = data["filter"]
         identifier = data["id"]
-        return Photo(identifier, thumbnail_url, standard_res_url, filter_name)
+        caption = data["caption"]["text"] if data["caption"] is not None else "No caption"
+        return Photo(identifier, thumbnail_url, standard_res_url, filter_name, caption)
     
     def get_photos_for_user(self, user):
         url = "https://api.instagram.com/v1/users/" + user + "/media/recent?access_token=" + urllib.quote(self.access_token, safe='')
