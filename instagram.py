@@ -1,6 +1,8 @@
 import json
 import requests
 import urllib
+import datetime
+from pytz import timezone
 
 CLIENT_ID="efd747770079428c812e17391edc8e87"
 CLIENT_SECRET="72b3719a0f994d7d9a360510a9d18199"
@@ -8,13 +10,14 @@ REDIRECT="http://localhost:5000/user"
 ENCODED_REDIRECT="http%3A%2F%2Flocalhost%3A5000%2Fuser"
 
 class Photo:
-    def __init__(self, identifier, thumbnail_url, standard_resolution_url, filter_name, caption, location):
+    def __init__(self, identifier, thumbnail_url, standard_resolution_url, filter_name, caption, location, creation_date):
         self.identifier = identifier
         self.thumbnail_url = thumbnail_url
         self.standard_resolution_url = standard_resolution_url
         self.filter = filter_name
         self.caption = caption
         self.location = location
+        self.creation_date = creation_date
 
 class InstagramClient:
     def __init__(self, token):
@@ -27,7 +30,10 @@ class InstagramClient:
         identifier = data["id"]
         caption = data["caption"]["text"] if data["caption"] is not None else "No caption"
         location = data["location"]["name"] if data["location"] is not None else "No location"
-        return Photo(identifier, thumbnail_url, standard_res_url, filter_name, caption, location)
+        ts = int(data["created_time"])
+        local_tz = timezone("America/Chicago")
+        creation_date = local_tz.localize(datetime.datetime.fromtimestamp(ts))
+        return Photo(identifier, thumbnail_url, standard_res_url, filter_name, caption, location, creation_date)
     
     def get_photos_for_user(self, user):
         url = "https://api.instagram.com/v1/users/" + user + "/media/recent?access_token=" + urllib.quote(self.access_token, safe='')
