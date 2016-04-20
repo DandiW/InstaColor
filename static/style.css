@@ -61,3 +61,15 @@ span.label {
 li.likes {
 	color: #C60008;
 }
+div#userInfo {
+	text-align: center;
+}
+div#userInfo h2 {
+	font-weight: 200;
+	margin-top: 12px;
+}
+div#userInfo img {
+	border-radius: 50%;
+	overflow: hidden;
+	box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+}

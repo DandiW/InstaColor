@@ -20,6 +20,11 @@ class Photo:
         self.creation_date = creation_date
         self.likes = likes
 
+class User:
+    def __init__(self, name, profile_picture_link):
+        self.name = name
+        self.profile_picture_link = profile_picture_link
+
 class InstagramClient:
     def __init__(self, token):
         self.access_token = token
@@ -36,6 +41,9 @@ class InstagramClient:
         creation_date = local_tz.localize(datetime.datetime.fromtimestamp(ts))
         likes = int(data["likes"]["count"])
         return Photo(identifier, thumbnail_url, standard_res_url, filter_name, caption, location, creation_date, likes)
+    
+    def user_from_data(self, data):
+        return User(data["full_name"], data["profile_picture"])
     
     def get_photos_for_user(self, user):
         url = "https://api.instagram.com/v1/users/" + user + "/media/recent?access_token=" + urllib.quote(self.access_token, safe='')
@@ -56,6 +64,15 @@ class InstagramClient:
             return []
         entry = response["data"]
         return self.photo_from_data(entry)
+    
+    def get_user_info(self):
+        url = "https://api.instagram.com/v1/users/self?access_token=" + urllib.quote(self.access_token, safe='')
+        request = requests.get(url)
+        response = request.json()
+        if response is None:
+            return []
+        entry = response["data"]
+        return self.user_from_data(entry)
 
 def load_access_token(code):
     request = requests.post('https://api.instagram.com/oauth/access_token', data={

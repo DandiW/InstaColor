@@ -30,6 +30,11 @@
 
 <body onload="pageLoaded()">
 	<div id="container">
+		<div id="userInfo">
+			<img src="{{ user.profile_picture_link }}" width="64" height="64" />
+			<h2>{{ user.name }}</h2>
+		</div>
+		
 		{% for photo in photos %}
 		<a href="javascript:loadPhoto('{{ photo.identifier }}')">
 			<div id="{{ photo.identifier }}" data-thumbnailURL="{{ photo.thumbnail_url }}" class="frame"></div>

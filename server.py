@@ -45,7 +45,8 @@ def serve_stream(user):
     
     client = instagram.InstagramClient(access_token)
     photos = client.get_photos_for_user(user)
-    return render_template('stream.html', photos=photos)
+    userInfo = client.get_user_info()
+    return render_template('stream.html', photos=photos, user=userInfo)
 
 @app.route("/photo/<id>")
 def serve_photo(id):
