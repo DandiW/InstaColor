@@ -10,7 +10,7 @@ REDIRECT="http://localhost:5000/user"
 ENCODED_REDIRECT="http%3A%2F%2Flocalhost%3A5000%2Fuser"
 
 class Photo:
-    def __init__(self, identifier, thumbnail_url, standard_resolution_url, filter_name, caption, location, creation_date):
+    def __init__(self, identifier, thumbnail_url, standard_resolution_url, filter_name, caption, location, creation_date, likes):
         self.identifier = identifier
         self.thumbnail_url = thumbnail_url
         self.standard_resolution_url = standard_resolution_url
@@ -18,6 +18,7 @@ class Photo:
         self.caption = caption
         self.location = location
         self.creation_date = creation_date
+        self.likes = likes
 
 class InstagramClient:
     def __init__(self, token):
@@ -33,7 +34,8 @@ class InstagramClient:
         ts = int(data["created_time"])
         local_tz = timezone("America/Chicago")
         creation_date = local_tz.localize(datetime.datetime.fromtimestamp(ts))
-        return Photo(identifier, thumbnail_url, standard_res_url, filter_name, caption, location, creation_date)
+        likes = int(data["likes"]["count"])
+        return Photo(identifier, thumbnail_url, standard_res_url, filter_name, caption, location, creation_date, likes)
     
     def get_photos_for_user(self, user):
         url = "https://api.instagram.com/v1/users/" + user + "/media/recent?access_token=" + urllib.quote(self.access_token, safe='')
