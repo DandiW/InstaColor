@@ -10,7 +10,7 @@
 		
 		<ul id="photoInfo">
 			{% if photo.likes > 0 %}
-			<li>{{ photo.likes }} &hearts;</li>
+			<li class="likes">{{ photo.likes }} &hearts;</li>
 			{% endif %}
 			
 			{% if photo.caption is not none %}

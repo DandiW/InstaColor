@@ -58,3 +58,6 @@ ul#photoInfo li {
 span.label {
 	color: #a7a7a7;
 }
+li.likes {
+	color: #C60008;
+}
