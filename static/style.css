@@ -49,3 +49,12 @@ div#footer p a {
 div#footer p a:hover {
 	text-decoration: underline;
 }
+ul#photoInfo {
+	list-style-type: none;
+}
+ul#photoInfo li {
+	margin-bottom: 6px;
+}
+span.label {
+	color: #a7a7a7;
+}

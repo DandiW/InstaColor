@@ -29,8 +29,8 @@ class InstagramClient:
         standard_res_url = data["images"]["standard_resolution"]["url"]
         filter_name = data["filter"]
         identifier = data["id"]
-        caption = data["caption"]["text"] if data["caption"] is not None else "No caption"
-        location = data["location"]["name"] if data["location"] is not None else "No location"
+        caption = data["caption"]["text"] if data["caption"] is not None else None
+        location = data["location"]["name"] if data["location"] is not None else None
         ts = int(data["created_time"])
         local_tz = timezone("America/Chicago")
         creation_date = local_tz.localize(datetime.datetime.fromtimestamp(ts))

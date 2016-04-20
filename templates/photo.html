@@ -7,13 +7,24 @@
 <body>
 	<div id="container">
 		<img src="{{ photo.standard_resolution_url }}" />
-		{% if photo.likes > 0 %}
-		<p>{{ photo.likes }} &hearts;</p>
-		{% endif %}
-		<p>Caption: {{ photo.caption }}</p>
-		<p>Filter: {{ photo.filter }}</p>
-		<p>Location: {{ photo.location }}</p>
-		<p>Creation Date: {{ photo.creation_date.strftime('%m/%d/%Y') }}</p>
+		
+		<ul id="photoInfo">
+			{% if photo.likes > 0 %}
+			<li>{{ photo.likes }} &hearts;</li>
+			{% endif %}
+			
+			{% if photo.caption is not none %}
+			<li><span class="label">Caption:</span> {{ photo.caption }}</li>
+			{% endif %}
+			
+			<li><span class="label">Filter:</span> {{ photo.filter }}</li>
+			
+			{% if photo.location is not none %}
+			<li><span class="label">Location:</span> {{ photo.location }}</li>
+			{% endif %}
+			
+			<li><span class="label">Creation Date:</span> {{ photo.creation_date.strftime('%m/%d/%Y') }}</li>
+		</div>
 	</div>
 	
 	<div id="footer">
