@@ -21,10 +21,6 @@
 				request.send();
 			}
 		}
-		
-		function loadPhoto(id) {
-			window.location = "/photo/" + id;
-		}
 	</script>
 </head>
 
@@ -36,7 +32,7 @@
 		</div>
 		
 		{% for photo in photos %}
-		<a href="javascript:loadPhoto('{{ photo.identifier }}')">
+		<a href="/photo/{{ photo.identifier }}">
 			<div id="{{ photo.identifier }}" data-thumbnailURL="{{ photo.thumbnail_url }}" class="frame"></div>
 		</a>
 		{% endfor %}
