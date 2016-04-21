@@ -32,8 +32,10 @@
 		</div>
 		
 		{% for photo in photos %}
-		<a href="/photo/{{ photo.identifier }}">
-			<div id="{{ photo.identifier }}" data-thumbnailURL="{{ photo.thumbnail_url }}" class="frame"></div>
+		<a class="photoLink" href="/photo/{{ photo.identifier }}">
+			<div id="{{ photo.identifier }}" data-thumbnailURL="{{ photo.thumbnail_url }}" class="frame">
+				<p>{{ photo.creation_date.strftime('%m/%d/%Y %I:%M %p') }}</p>
+			</div>
 		</a>
 		{% endfor %}
 	</div>
