@@ -133,7 +133,11 @@ def find_top_emoji(photos):
 def sentiment_captions(photos):
     polar = {}
     for photo in photos:
-        text = TextBlob(str(photo.caption))
+        if photo.caption is None:
+            continue
+        
+        caption_without_emoji = photo.caption.encode('ascii', 'ignore')
+        text = TextBlob(caption_without_emoji)
         # store the polarity
         # Note 0 = neutral. greater than 0 means happy/good/postive. Less than 0 = sad/negative
         polar[photo.identifier] = text.sentiment.polarity
