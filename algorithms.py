@@ -1,4 +1,5 @@
 from sklearn.cluster import KMeans
+import operator
 import requests
 import numpy
 from StringIO import StringIO
@@ -26,3 +27,21 @@ def filter_photos_by_filter(photos, filter_name):
         if filter_name in photo.filter.lower():
             passing_photos.append(photo)
     return passing_photos
+
+class Filter:
+    def __init__(self, name):
+        self.name = name
+
+def find_top_filters(photos):
+    filter_map = {}
+    for photo in photos:
+        filter_key = photo.filter.lower()
+        if filter_key in filter_map:
+            filter_map[filter_key] += 1
+        else:
+            filter_map[filter_key] = 1
+    sorted_items = sorted(filter_map.items(), key=operator.itemgetter(1))
+    filters = []
+    for key, value in sorted_items:
+        filters.append(Filter(key))
+    return filters

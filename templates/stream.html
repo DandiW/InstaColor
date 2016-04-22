@@ -21,23 +21,53 @@
 				request.send();
 			}
 		}
+		
+		function toggleSidebar() {
+			var sidebar = document.getElementById("sidebar");
+			var sidebarAnchor = document.getElementById("sidebarAnchor");
+			if (sidebar.style.visibility == "visible") {
+				sidebar.style.visibility = "hidden";
+				sidebarAnchor.innerText = "Show Filter >";
+			} else {
+				sidebar.style.visibility = "visible";
+				sidebarAnchor.innerText = "Hide Filters >";
+			}
+		}
 	</script>
 </head>
 
 <body onload="pageLoaded()">
-	<div id="container">
-		<div id="userInfo">
-			<img src="{{ user.profile_picture_link }}" width="64" height="64" />
-			<h2>{{ user.name }}</h2>
+	<div id="header">
+		<p><a id="sidebarAnchor" href="javascript:toggleSidebar()">Show Filters &gt;</a></p>
+	</div>
+	
+	<div id="holder">
+		<div id="container">
+			<div id="userInfo">
+				<img src="{{ user.profile_picture_link }}" width="64" height="64" />
+				<h2>{{ user.name }}</h2>
+			</div>
+		
+			{% for photo in photos %}
+			<a class="photoLink" href="/photo/{{ photo.identifier }}">
+				<div id="{{ photo.identifier }}" data-thumbnailURL="{{ photo.thumbnail_url }}" class="frame">
+					<p>{{ photo.creation_date.strftime('%m/%d/%Y %I:%M %p') }}</p>
+				</div>
+			</a>
+			{% endfor %}
+		</div>
+	
+		<div id="sidebar">
+			<p>Filter by Filter:</p>
+			<ul>
+				{% for filter in top_filters %}
+				<li><p><a href="/stream/self?filter={{ filter.name }}">{{ filter.name }}</a></p></li>
+				{% endfor %}
+			</ul>
+			<p>Filter by Emoji:</p>
 		</div>
 		
-		{% for photo in photos %}
-		<a class="photoLink" href="/photo/{{ photo.identifier }}">
-			<div id="{{ photo.identifier }}" data-thumbnailURL="{{ photo.thumbnail_url }}" class="frame">
-				<p>{{ photo.creation_date.strftime('%m/%d/%Y %I:%M %p') }}</p>
-			</div>
-		</a>
-		{% endfor %}
+		<div class="clearFix"></div>
 	</div>
 	
 	<div id="footer">

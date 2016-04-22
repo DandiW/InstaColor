@@ -45,13 +45,14 @@ def serve_stream(user):
     
     client = instagram.InstagramClient(access_token)
     photos = client.get_photos_for_user(user)
+    top_filters = algorithms.find_top_filters(photos)
     
     if "filter" in request.args:
         filter_name = request.args["filter"].lower()
         photos = algorithms.filter_photos_by_filter(photos, filter_name)
     
     userInfo = client.get_user_info()
-    return render_template('stream.html', photos=photos, user=userInfo)
+    return render_template('stream.html', photos=photos, user=userInfo, top_filters=top_filters)
 
 @app.route("/photo/<id>")
 def serve_photo(id):
