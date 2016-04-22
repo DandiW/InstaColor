@@ -39,8 +39,8 @@ def find_primary_color(url):
         hsv = colorsys.rgb_to_hsv(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0)
         top_pixels.append((color, hsv))
     
-    sorted_colors = sorted(top_pixels, key=lambda x: x[1][2], reverse=True)
-    best_color = sorted_colors[0]
+    sorted_colors = sorted(top_pixels, key=lambda x: x[1][1])
+    best_color = sorted_colors[1]
     best_color_rgb = best_color[0]
     color = "rgb(" + str(int(best_color_rgb[0])) + "," + str(int(best_color_rgb[1])) + "," + str(int(best_color_rgb[2])) + ")"
     return color
