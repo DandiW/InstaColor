@@ -1,3 +1,4 @@
+import pandas as pd
 from sklearn.cluster import KMeans
 import operator
 import requests
@@ -5,6 +6,8 @@ import numpy
 import colorsys
 from StringIO import StringIO
 from PIL import Image
+from textblob import TextBlob, blob
+
 
 def find_primary_color(url):
     request = requests.get(url)
@@ -115,3 +118,16 @@ def find_top_emoji(photos):
     for key, value in sorted_items:
         emojis.append(Emoji(key))
     return emojis
+
+#entiment analysis on captions and tags
+def sentiment_captions(photos):
+    polar = []
+    for photo in photos:
+        text = TextBlob(str(photo.caption))
+        # store the polarity
+        # Note 0 = neutral. greater than 0 means happy/good/postive. Less than 0 = sad/negative
+        polar[photo.identifier] = text.sentiment.polarity
+
+        print text.sentiment
+
+    return polar

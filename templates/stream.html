@@ -2,7 +2,7 @@
 <html>
 <head>
 	<link rel="stylesheet" href="/static/style.css" type="text/css" />
-	
+
 	<script type="text/javascript">
 		function pageLoaded() {
 			var elements = document.getElementsByClassName("frame");
@@ -10,7 +10,7 @@
 				var element = elements[i];
 				var ident = element.id;
 				var thumbnailURL = element.getAttribute("data-thumbnailURL");
-				
+
 				var request = new XMLHttpRequest();
 				request.addEventListener("load", function() {
 					var response = JSON.parse(this.responseText);
@@ -21,7 +21,7 @@
 				request.send();
 			}
 		}
-		
+
 		function toggleSidebar() {
 			var sidebar = document.getElementById("sidebar");
 			var sidebarAnchor = document.getElementById("sidebarAnchor");
@@ -33,30 +33,54 @@
 				sidebarAnchor.innerText = "Hide Filters >";
 			}
 		}
-	</script>
+    </script>
+
+
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Lable', 'Number'],
+          ['Like',     11],
+          ['Non-Like',      2]
+        ]);
+
+        var options = {
+          title: 'Like vs Non Like'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
 </head>
 
 <body onload="pageLoaded()">
 	<div id="header">
 		<p><a id="sidebarAnchor" href="javascript:toggleSidebar()">Show Filters &gt;</a></p>
 	</div>
-	
+
 	<div id="holder">
 		<div id="container">
 			<div id="userInfo">
 				<img src="{{ user.profile_picture_link }}" width="64" height="64" />
 				<h2>{{ user.name }}</h2>
 			</div>
-		
+
 			{% for photo in photos %}
 			<a class="photoLink" href="/photo/{{ photo.identifier }}">
 				<div id="{{ photo.identifier }}" data-thumbnailURL="{{ photo.thumbnail_url }}" class="frame">
-					<p>{{ photo.creation_date.strftime('%m/%d/%Y %I:%M %p') }}</p>
+					<p>{{ photo.likes }} {{ photo.creation_date.strftime('%m/%d/%Y %I:%M %p') }}</p>
 				</div>
 			</a>
 			{% endfor %}
 		</div>
-	
+
 		<div id="sidebar">
 			<p>Filter by Filter:</p>
 			<ul>
@@ -71,10 +95,12 @@
 				{% endfor %}
 			</ul>
 		</div>
-		
 		<div class="clearFix"></div>
 	</div>
-	
+<!-- Save it for later prob.
+	<div id="piechart" ></div>
+-->
+
 	<div id="footer">
 		<p><a href="/signOut">Sign Out</a></p>
 	</div>

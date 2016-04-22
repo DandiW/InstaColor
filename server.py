@@ -47,7 +47,12 @@ def serve_stream(user):
     photos = client.get_photos_for_user(user)
     top_filters = algorithms.find_top_filters(photos)
     top_emoji = algorithms.find_top_emoji(photos)
-    
+
+########################>>>TEST<<########################################
+    algorithms.sentiment_captions(photos)
+
+####################>>>TEST-END<<########################################
+
     if "filter" in request.args:
         filter_name = request.args["filter"].lower()
         photos = algorithms.filter_photos_by_filter(photos, filter_name)
