@@ -45,6 +45,11 @@ def serve_stream(user):
     
     client = instagram.InstagramClient(access_token)
     photos = client.get_photos_for_user(user)
+    
+    if "filter" in request.args:
+        filter_name = request.args["filter"].lower()
+        photos = algorithms.filter_photos_by_filter(photos, filter_name)
+    
     userInfo = client.get_user_info()
     return render_template('stream.html', photos=photos, user=userInfo)
 

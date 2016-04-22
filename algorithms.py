@@ -19,3 +19,10 @@ def find_primary_color(url):
     
     color = "rgb(" + str(int(top_pixel[0])) + "," + str(int(top_pixel[1])) + "," + str(int(top_pixel[2])) + ")"
     return color
+
+def filter_photos_by_filter(photos, filter_name):
+    passing_photos = []
+    for photo in photos:
+        if filter_name in photo.filter.lower():
+            passing_photos.append(photo)
+    return passing_photos
