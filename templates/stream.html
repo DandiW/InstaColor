@@ -42,6 +42,13 @@
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
       function drawChart() {
+		  
+        var pieChartDiv = document.getElementById('piechart');
+
+		if (pieChartDiv == null) {
+            console.log("The div holding the pie chart is not in the DOM");
+            return;
+        }
 
         var data = google.visualization.arrayToDataTable([
           ['Label', 'Number'],
@@ -53,7 +60,7 @@
           title: 'Like vs Non Like'
         };
 
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        var chart = new google.visualization.PieChart(pieChartDiv);
 
         chart.draw(data, options);
       }
