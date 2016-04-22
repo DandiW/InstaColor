@@ -5,26 +5,30 @@
 </head>
 
 <body>
-	<div id="container">
-		<img src="{{ photo.standard_resolution_url }}" />
+	<div id="holder">
+		<div id="container">
+			<img src="{{ photo.standard_resolution_url }}" />
 		
-		<ul id="photoInfo">
-			{% if photo.likes > 0 %}
-			<li class="likes">{{ photo.likes }} &hearts;</li>
-			{% endif %}
+			<ul id="photoInfo">
+				{% if photo.likes > 0 %}
+				<li class="likes">{{ photo.likes }} &hearts;</li>
+				{% endif %}
 			
-			{% if photo.caption is not none %}
-			<li><span class="label">Caption:</span> {{ photo.caption }}</li>
-			{% endif %}
+				{% if photo.caption is not none %}
+				<li><span class="label">Caption:</span> {{ photo.caption }}</li>
+				{% endif %}
 			
-			<li><span class="label">Filter:</span> {{ photo.filter }}</li>
+				<li><span class="label">Filter:</span> {{ photo.filter }}</li>
 			
-			{% if photo.location is not none %}
-			<li><span class="label">Location:</span> {{ photo.location }}</li>
-			{% endif %}
+				{% if photo.location is not none %}
+				<li><span class="label">Location:</span> {{ photo.location }}</li>
+				{% endif %}
 			
-			<li><span class="label">Creation Date:</span> {{ photo.creation_date.strftime('%m/%d/%Y') }}</li>
+				<li><span class="label">Creation Date:</span> {{ photo.creation_date.strftime('%m/%d/%Y') }}</li>
+			</div>
 		</div>
+		
+		<div class="clearFix"></div>
 	</div>
 	
 	<div id="footer">
