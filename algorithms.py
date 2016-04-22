@@ -2,6 +2,7 @@ from sklearn.cluster import KMeans
 import operator
 import requests
 import numpy
+import colorsys
 from StringIO import StringIO
 from PIL import Image
 
@@ -15,21 +16,30 @@ def find_primary_color(url):
     
     # find the top K color clusters but only uses the most frequent one
     # by treating K-1 clusters as a junk drawer, the color accuracy of the primary cluster is improved
+    key_clusters = 3
     junk_clusters = 2
-    kmeans = KMeans(n_clusters=junk_clusters+1)
+    kmeans = KMeans(n_clusters=junk_clusters+key_clusters)
     kmeans.fit(pixels)
-    assert(kmeans.cluster_centers_.shape[0] == junk_clusters+1)
+    assert(kmeans.cluster_centers_.shape[0] == junk_clusters+key_clusters)
     cluster_counts = {}
-    for i in range(junk_clusters+1):
+    for i in range(junk_clusters+key_clusters):
         cluster_counts[i] = 0
     
     for i in kmeans.labels_:
         cluster_counts[i] += 1
     
     sorted_items = sorted(cluster_counts.items(), key=operator.itemgetter(1), reverse=True)
-    top_pixel = kmeans.cluster_centers_[sorted_items[0][0], :]
     
-    color = "rgb(" + str(int(top_pixel[0])) + "," + str(int(top_pixel[1])) + "," + str(int(top_pixel[2])) + ")"
+    top_pixels = []
+    for i in range(key_clusters):
+        color = kmeans.cluster_centers_[sorted_items[i][0], :]
+        hsv = colorsys.rgb_to_hsv(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0)
+        top_pixels.append((color, hsv))
+    
+    sorted_colors = sorted(top_pixels, key=lambda x: x[1][2], reverse=True)
+    best_color = sorted_colors[0]
+    best_color_rgb = best_color[0]
+    color = "rgb(" + str(int(best_color_rgb[0])) + "," + str(int(best_color_rgb[1])) + "," + str(int(best_color_rgb[2])) + ")"
     return color
 
 def filter_photos_by_filter(photos, filter_name):
