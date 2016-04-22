@@ -51,7 +51,7 @@ def find_top_filters(photos):
             filter_map[filter_key] += 1
         else:
             filter_map[filter_key] = 1
-    sorted_items = sorted(filter_map.items(), key=operator.itemgetter(1))
+    sorted_items = sorted(filter_map.items(), key=operator.itemgetter(1), reverse=True)
     filters = []
     for key, value in sorted_items:
         filters.append(Filter(key))
@@ -89,7 +89,7 @@ def find_top_emoji(photos):
                 filter_map[emoji] += 1
             else:
                 filter_map[emoji] = 1
-    sorted_items = sorted(filter_map.items(), key=operator.itemgetter(1))
+    sorted_items = sorted(filter_map.items(), key=operator.itemgetter(1), reverse=True)
     emojis = []
     for key, value in sorted_items:
         emojis.append(Emoji(key))
