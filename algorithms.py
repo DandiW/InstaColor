@@ -13,10 +13,21 @@ def find_primary_color(url):
     pixels = matrix.reshape(pixel_count, 3, 1).squeeze()
     assert(pixels.shape[1] == 3)
     
-    kmeans = KMeans(n_clusters=1)
+    # find the top K color clusters but only uses the most frequent one
+    # by treating K-1 clusters as a junk drawer, the color accuracy of the primary cluster is improved
+    junk_clusters = 2
+    kmeans = KMeans(n_clusters=junk_clusters+1)
     kmeans.fit(pixels)
-    assert(kmeans.cluster_centers_.shape[0] == 1)
-    top_pixel = kmeans.cluster_centers_[0,:]
+    assert(kmeans.cluster_centers_.shape[0] == junk_clusters+1)
+    cluster_counts = {}
+    for i in range(junk_clusters+1):
+        cluster_counts[i] = 0
+    
+    for i in kmeans.labels_:
+        cluster_counts[i] += 1
+    
+    sorted_items = sorted(cluster_counts.items(), key=operator.itemgetter(1), reverse=True)
+    top_pixel = kmeans.cluster_centers_[sorted_items[0][0], :]
     
     color = "rgb(" + str(int(top_pixel[0])) + "," + str(int(top_pixel[1])) + "," + str(int(top_pixel[2])) + ")"
     return color
