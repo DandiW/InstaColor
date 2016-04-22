@@ -65,6 +65,11 @@
 				{% endfor %}
 			</ul>
 			<p>Filter by Emoji:</p>
+			<ul>
+				{% for emoji in top_emoji %}
+				<li><p><a href="/stream/self?emoji={{ emoji.content }}">{{ emoji.content }}</a></p></li>
+				{% endfor %}
+			</ul>
 		</div>
 		
 		<div class="clearFix"></div>

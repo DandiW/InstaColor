@@ -46,13 +46,17 @@ def serve_stream(user):
     client = instagram.InstagramClient(access_token)
     photos = client.get_photos_for_user(user)
     top_filters = algorithms.find_top_filters(photos)
+    top_emoji = algorithms.find_top_emoji(photos)
     
     if "filter" in request.args:
         filter_name = request.args["filter"].lower()
         photos = algorithms.filter_photos_by_filter(photos, filter_name)
+    elif "emoji" in request.args:
+        emoji = request.args["emoji"]
+        photos = algorithms.filter_photos_by_emoji(photos, emoji)
     
     userInfo = client.get_user_info()
-    return render_template('stream.html', photos=photos, user=userInfo, top_filters=top_filters)
+    return render_template('stream.html', photos=photos, user=userInfo, top_filters=top_filters, top_emoji=top_emoji)
 
 @app.route("/photo/<id>")
 def serve_photo(id):
