@@ -131,7 +131,7 @@ def find_top_emoji(photos):
 
 # entiment analysis on captions and tags
 def sentiment_captions(photos):
-    polar = []
+    polar = {}
     for photo in photos:
         text = TextBlob(str(photo.caption))
         # store the polarity
