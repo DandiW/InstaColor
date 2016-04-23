@@ -1,4 +1,8 @@
-import pandas as pd
+import tokenize
+import pprint
+
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from nltk import tokenize
 from sklearn.cluster import KMeans
 import operator
 import requests
@@ -6,7 +10,7 @@ import numpy
 import colorsys
 from StringIO import StringIO
 from PIL import Image
-from textblob import TextBlob, blob
+from textblob import TextBlob
 
 
 def find_primary_color(url):
@@ -135,13 +139,41 @@ def sentiment_captions(photos):
     for photo in photos:
         if photo.caption is None:
             continue
-        
+
         caption_without_emoji = photo.caption.encode('ascii', 'ignore')
         text = TextBlob(caption_without_emoji)
         # store the polarity
         # Note 0 = neutral. greater than 0 means happy/good/postive. Less than 0 = sad/negative
         polar[photo.identifier] = text.sentiment.polarity
 
-        print text.sentiment
+        # print text.sentiment
 
+    return polar
+
+
+def sentiment_captions2(photos):
+    polar = {}
+    temp = {}
+    for photo in photos:
+        if photo.caption is None:
+            continue
+
+        caption_without_emoji = photo.caption.encode('ascii', 'ignore')
+        lines_list = tokenize.sent_tokenize(caption_without_emoji)
+        sid = SentimentIntensityAnalyzer()
+        for sentence in lines_list:
+            ss = sid.polarity_scores(sentence)
+            for k in sorted(ss):
+                temp[k] = ss[k]
+        polar[photo.identifier] = temp
+    # print polar
+    '''
+        polar format:
+        polar[photo.id] = {
+                            neg : 0.0
+                            neu : 0.0
+                            pos : 0.0
+                            compound: 0.0
+                           }
+    '''
     return polar

@@ -50,6 +50,7 @@ def serve_stream(user):
 
 ########################>>>TEST<<########################################
     algorithms.sentiment_captions(photos)
+    algorithms.sentiment_captions2(photos)
 
 ####################>>>TEST-END<<########################################
 
