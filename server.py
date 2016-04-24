@@ -49,8 +49,8 @@ def serve_stream(user):
     top_emoji = algorithms.find_top_emoji(photos)
 
 ########################>>>TEST<<########################################
-    algorithms.sentiment_captions(photos)
-    algorithms.sentiment_captions2(photos)
+    #algorithms.sentiment_captions(photos)
+    #algorithms.sentiment_captions2(photos)
 
 ####################>>>TEST-END<<########################################
 
