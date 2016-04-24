@@ -4,6 +4,7 @@ import face
 import instagram
 import json
 import os
+import utilities
 
 app = Flask(__name__)
 app.debug = True
@@ -84,7 +85,7 @@ def serve_face_sentiment():
     assert(url is not None)
     label = face.analyze_image_at_url(url)
     return json.dumps({
-        "label": label if label is not None else "Unknown",
+        "label": utilities.emoji_for_label(label) if label is not None else "Unknown",
         "identifier": ident
     })
 
