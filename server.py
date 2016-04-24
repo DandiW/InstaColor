@@ -1,8 +1,9 @@
 from flask import *
+import algorithms
+import face
+import instagram
 import json
 import os
-import instagram
-import algorithms
 
 app = Flask(__name__)
 app.debug = True
@@ -75,6 +76,17 @@ def serve_photo(id):
     photo = client.get_photo_info(id)
     
     return render_template('photo.html', photo=photo)
+
+@app.route("/analyzeFaceSentiment")
+def serve_face_sentiment():
+    url = request.args["url"]
+    ident = request.args["id"]
+    assert(url is not None)
+    label = face.analyze_image_at_url(url)
+    return json.dumps({
+        "label": label if label is not None else "Unknown",
+        "identifier": ident
+    })
 
 @app.route("/analyzeColor")
 def serve_analysis():

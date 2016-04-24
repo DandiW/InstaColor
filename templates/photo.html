@@ -2,9 +2,22 @@
 <html>
 <head>
 	<link rel="stylesheet" href="/static/style.css" type="text/css" />
+	<script type="text/javascript">
+		var ident = "{{ photo.identifier }}";
+		var thumbnailURL = "{{ photo.standard_resolution_url }}";
+
+		var request = new XMLHttpRequest();
+		request.addEventListener("load", function() {
+			var response = JSON.parse(this.responseText);
+			var label = response.label;
+			document.getElementById("faceSentimentValue").innerText = label;
+		});
+		request.open("GET", "/analyzeFaceSentiment?id=" + ident + "&url=" + encodeURIComponent(thumbnailURL));
+		request.send();
+	</script>
 </head>
 
-<body>
+<body onload="loaded()">
 	<div id="holder">
 		<div id="container">
 			<img src="{{ photo.standard_resolution_url }}" />
@@ -19,6 +32,8 @@
 				{% endif %}
 			
 				<li><span class="label">Filter:</span> {{ photo.filter }}</li>
+			
+				<li><span class="label">Facial Sentiment:</span> <span id="faceSentimentValue">Analyzing...</span></li>
 			
 				{% if photo.location is not none %}
 				<li><span class="label">Location:</span> {{ photo.location }}</li>
