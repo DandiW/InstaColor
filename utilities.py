@@ -16,3 +16,12 @@ def emoji_for_label(label):
     elif label == "surprise":
         return u'\U0001f62f'
     return "Ahh, missing Emoji"
+
+def emoji_for_label_byNumber(num):
+    if num == "neu":
+        return u'\U0001f610'
+    elif num == "neg":
+        return u'\U0001f621'
+    elif num == "pos":
+        return u'\U0001f600'
+    return "Ahh, missing Emoji"

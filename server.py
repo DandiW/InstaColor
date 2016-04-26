@@ -8,6 +8,7 @@ import utilities
 
 app = Flask(__name__)
 app.debug = True
+global_user = None
 
 def save_access_token(access_token):
     assert(access_token is not None)
@@ -46,6 +47,10 @@ def serve_stream(user):
         return redirect("/", code=302)
     
     client = instagram.InstagramClient(access_token)
+
+    global global_user
+    global_user = client.get_photos_for_user(user)
+
     photos = client.get_photos_for_user(user)
     top_filters = algorithms.find_top_filters(photos)
     top_emoji = algorithms.find_top_emoji(photos)
@@ -84,8 +89,19 @@ def serve_face_sentiment():
     ident = request.args["id"]
     assert(url is not None)
     label = face.analyze_image_at_url(url)
+
+    global global_user
+    dict_ = algorithms.sentiment_captions2(global_user)
+    the_max = max(dict_[ident])
+
+    if label is not None:
+        text = utilities.emoji_for_label(label)
+    else:
+        text = utilities.emoji_for_label_byNumber(the_max)
+
     return json.dumps({
-        "label": utilities.emoji_for_label(label) if label is not None else "Unknown",
+        #"label": utilities.emoji_for_label(label) if label is not None else "Unknown",
+        "label": text,
         "identifier": ident
     })
 
