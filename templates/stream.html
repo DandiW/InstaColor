@@ -19,6 +19,18 @@
 				});
 				request.open("GET", "/analyzeColor?id=" + ident + "&url=" + encodeURIComponent(thumbnailURL));
 				request.send();
+                
+                var request2 = new XMLHttpRequest();
+				request2.addEventListener("load", function() {
+					var response = JSON.parse(this.responseText);
+					var label = response.label;
+                    if (label != "Unknown") {
+                        var emojiLabel = document.getElementById(response.identifier).getElementsByClassName("emoji")[0];
+                        emojiLabel.innerText = label;
+                    }
+				});
+				request2.open("GET", "/analyzeFaceSentiment?id=" + ident + "&url=" + encodeURIComponent(thumbnailURL));
+				request2.send();
 			}
 		}
 
@@ -82,7 +94,8 @@
 			{% for photo in photos %}
 			<a class="photoLink" href="/photo/{{ photo.identifier }}">
 				<div id="{{ photo.identifier }}" data-thumbnailURL="{{ photo.thumbnail_url }}" class="frame">
-					<p>{{ photo.likes }} &hearts; &nbsp; {{ photo.creation_date.strftime('%m/%d/%Y %I:%M %p') }}</p>
+                    <p class="emoji"></p>
+					<p class="info">{{ photo.likes }} &hearts; &nbsp; {{ photo.creation_date.strftime('%m/%d/%Y %I:%M %p') }}</p>
 				</div>
 			</a>
 			{% endfor %}
