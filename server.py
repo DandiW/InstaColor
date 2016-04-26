@@ -85,6 +85,7 @@ def serve_face_sentiment():
     assert(url is not None)
     label = face.analyze_image_at_url(url)
     return json.dumps({
+        "raw_label": label if label is not None else "unknown",
         "label": utilities.emoji_for_label(label) if label is not None else "Unknown",
         "identifier": ident
     })
