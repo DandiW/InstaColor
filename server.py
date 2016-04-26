@@ -102,6 +102,8 @@ def serve_face_sentiment():
     return json.dumps({
         #"label": utilities.emoji_for_label(label) if label is not None else "Unknown",
         "label": text,
+        #"raw_label": label if label is not None else "unknown",
+        #"label": utilities.emoji_for_label(label) if label is not None else "Unknown",
         "identifier": ident
     })
 

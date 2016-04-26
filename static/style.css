@@ -82,16 +82,23 @@ div#userInfo img {
 a.photoLink {
 	text-decoration: none;
 }
-a.photoLink p {
+a.photoLink p.emoji {
+    float: left;
+    margin: 0;
+    padding: 0;
+   
+}
+a.photoLink p.info {
 	visibility: hidden;
 	color: white;
 	font-size: 12px;
 	text-align: right;
-	margin-right: 6px;
-	padding-top: 4px;
+	margin: 0;
+    padding: 0;
+/*	padding-top: 4px;*/
 	text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
 }
-a.photoLink:hover p {
+a.photoLink:hover p.info {
 	visibility: visible;
 }
 div#header {
