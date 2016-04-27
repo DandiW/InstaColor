@@ -1,27 +1,27 @@
 def emoji_for_label(label):
     if label == "neutral":
-        return u'neutral.png'
+        return u'neutral.svg'
     elif label == "sadness":
-        return u'sadness.png'
+        return u'sadness.svg'
     elif label == "anger":
-        return u'anger.png'
+        return u'anger.svg'
     elif label == "happiness":
-        return u'happiness.png'
+        return u'happiness.svg'
     elif label == "fear":
-        return u'fear.png'
+        return u'fear.svg'
     elif label == "disgust":
-        return u'disgust.png'
+        return u'disgust.svg'
     elif label == "contempt":
-        return u'contempt.png'
+        return u'contempt.svg'
     elif label == "surprise":
-        return u'surprise.png'
+        return u'surprise.svg'
     return "Ahh, missing Emoji"
 
 def emoji_for_label_byNumber(num):
     if num == "neu":
-        return u'neutral.png'
+        return u'neutral.svg'
     elif num == "neg":
-        return u'anger.png'
+        return u'anger.svg'
     elif num == "pos":
-        return u'happiness.png'
+        return u'happiness.svg'
     return "Ahh, missing Emoji"
