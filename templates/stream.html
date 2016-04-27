@@ -154,7 +154,7 @@
 			{% for photo in photos %}
 			<a class="photoLink" href="/photo/{{ photo.identifier }}">
 				<div id="{{ photo.identifier }}" data-thumbnailURL="{{ photo.thumbnail_url }}" class="frame">
-                    <p class="emoji"></p>
+                    <img class="emoticon"></img>
 					<p class="info">{{ photo.likes }} &hearts; &nbsp; {{ photo.creation_date.strftime('%m/%d/%Y %I:%M %p') }}</p>
 				</div>
 			</a>
