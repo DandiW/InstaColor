@@ -3,6 +3,7 @@ import algorithms
 import face
 import instagram
 import json
+import operator
 import os
 import utilities
 
@@ -83,10 +84,31 @@ def serve_face_sentiment():
     url = request.args["url"]
     ident = request.args["id"]
     assert(url is not None)
+    
+    access_token = load_access_token()
+    
+    if access_token is None:
+        return render_template('error.html', message="You are not signed in.")
+    
+    client = instagram.InstagramClient(access_token)
+    photo = client.get_photo_info(ident)
+    
     label = face.analyze_image_at_url(url)
+
+    emoji = "Unknown"
+
+    if label is not None:
+        emoji = utilities.emoji_for_label(label)
+    else:
+        dict_ = algorithms.sentiment_captions2(photo.caption)
+        if dict_ is not None:
+            the_max = max(dict_.iteritems(), key=operator.itemgetter(1))[0]
+            emoji = utilities.emoji_for_label_byNumber(the_max)
+
     return json.dumps({
+        #"label": utilities.emoji_for_label(label) if label is not None else "Unknown",
+        "label": emoji,
         "raw_label": label if label is not None else "unknown",
-        "label": utilities.emoji_for_label(label) if label is not None else "Unknown",
         "identifier": ident
     })
 

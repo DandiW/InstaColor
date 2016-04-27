@@ -5,7 +5,10 @@
 	<script type="text/javascript">
 		var ident = "{{ photo.identifier }}";
 		var thumbnailURL = "{{ photo.standard_resolution_url }}";
+<<<<<<< HEAD
 		//alert(ident+"+and+"+thumbnailURL);
+=======
+>>>>>>> origin/master
 		var request = new XMLHttpRequest();
 		request.addEventListener("load", function() {
 			var response = JSON.parse(this.responseText);
@@ -33,7 +36,7 @@
 			
 				<li><span class="label">Filter:</span> {{ photo.filter }}</li>
 			
-				<li><span class="label">Facial Sentiment:</span> <span id="faceSentimentValue">Analyzing...</span></li>
+				<li><span class="label">Sentiment:</span> <span id="faceSentimentValue">Analyzing...</span></li>
 			
 				{% if photo.location is not none %}
 				<li><span class="label">Location:</span> {{ photo.location }}</li>

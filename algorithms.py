@@ -151,21 +151,21 @@ def sentiment_captions(photos):
     return polar
 
 
-def sentiment_captions2(photos):
-    polar = {}
+def sentiment_captions2(caption):
+    if caption is None:
+        return None
     temp = {}
-    for photo in photos:
-        if photo.caption is None:
-            continue
-
-        caption_without_emoji = photo.caption.encode('ascii', 'ignore')
-        lines_list = tokenize.sent_tokenize(caption_without_emoji)
-        sid = SentimentIntensityAnalyzer()
-        for sentence in lines_list:
-            ss = sid.polarity_scores(sentence)
-            for k in sorted(ss):
+    caption_without_emoji = caption.encode('ascii', 'ignore')
+    lines_list = tokenize.sent_tokenize(caption_without_emoji)
+    sid = SentimentIntensityAnalyzer()
+    for sentence in lines_list:
+        ss = sid.polarity_scores(sentence)
+        for k in sorted(ss):
+            if k in temp:
+                temp[k] += ss[k]
+            else:
                 temp[k] = ss[k]
-        polar[photo.identifier] = temp
+    return temp
     # print polar
     '''
         polar format:
@@ -176,4 +176,3 @@ def sentiment_captions2(photos):
                             compound: 0.0
                            }
     '''
-    return polar
