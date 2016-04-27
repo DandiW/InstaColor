@@ -3,11 +3,30 @@
 <head>
 	<link rel="stylesheet" href="/static/style.css" type="text/css" />
 
-	<script type="text/javascript">
-		function pageLoaded() {
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(chartReady);
+		
+		var emotions = {};
+	  
+		function chartReady() {
 			var elements = document.getElementsByClassName("frame");
 			var div_height = new Array(elements.length);
 			div_height[0] = 24;
+			
+			emotions["anger"] = 0;
+			emotions["contempt"] = 0;
+			emotions["disgust"] = 0;
+			emotions["fear"] = 0;
+			emotions["happiness"] = 0;
+			emotions["neutral"] = 0;
+			emotions["sadness"] = 0;
+			emotions["surprise"] = 0;
+			emotions["pos"] = 0;
+			emotions["neu"] = 0;
+			emotions["neg"] = 0;
+			
 			for (var i = 0; i < elements.length; i++) {
 				var element = elements[i];
 				var ident = element.id;
@@ -30,15 +49,28 @@
 				request.open("GET", "/analyzeColor?id=" + ident + "&url=" + encodeURIComponent(thumbnailURL));
 				request.send();
                 
+				var requestsCompleted = 0;
                 var request2 = new XMLHttpRequest();
 				request2.addEventListener("load", function() {
 					var response = JSON.parse(this.responseText);
 					var label = response.label;
+					var raw_label = response.raw_label;
+					
                     if (label != "Unknown") {
                         var emojiLabel = document.getElementById(response.identifier).getElementsByClassName("emoticon")[0];
                         emojiLabel.src = "/static/images/" + label;
 						emojiLabel.style.visibility = "visible";
                     }
+					
+					if (raw_label != "unknown") {
+						emotions[raw_label] += 1;
+					}
+					
+					requestsCompleted += 1;
+					
+					if (requestsCompleted == elements.length) {
+						finishedAnalyzingEmotions();
+					}
 				});
 				request2.open("GET", "/analyzeFaceSentiment?id=" + ident + "&url=" + encodeURIComponent(thumbnailURL));
 				request2.send();
@@ -58,6 +90,40 @@
 				elements[i].setAttribute("style","height:"+final_height+"px");
 			}
 		}
+		
+		function finishedAnalyzingEmotions() {
+	        var facePieChart = document.getElementById('piechart');
+			var textPieChart = document.getElementById('textpiechart');
+	        var faceData = google.visualization.arrayToDataTable([
+	          ['Label', 'Number'],
+	          ['Anger',     emotions["anger"]],
+	          ['Contempt',      emotions["contempt"]],
+	          ['Disgust',     emotions["disgust"]],
+	          ['Fear',     emotions["fear"]],
+	          ['Happiness',     emotions["happiness"]],
+	          ['Neutral',     emotions["neutral"]],
+	          ['Sadness',     emotions["sadness"]],
+	          ['Surprise',     emotions["surprise"]]
+	        ]);
+	        var textData = google.visualization.arrayToDataTable([
+	          ['Label', 'Number'],
+	          ['Neutral',     emotions["neu"]],
+	          ['Negative',      emotions["neg"]],
+	          ['Positive',     emotions["pos"]]
+	        ]);
+			
+	        var options = {
+	          title: 'Mood Overview'
+	        };
+			var textOptions = {
+			  title: "Text Overview"
+			};
+			
+	        var faceChart = new google.visualization.PieChart(facePieChart);
+	        faceChart.draw(faceData, options);
+	        var textChart = new google.visualization.PieChart(textPieChart);
+	        textChart.draw(textData, textOptions);
+		}
 
 		function toggleSidebar() {
 			var sidebar = document.getElementById("sidebar");
@@ -71,100 +137,9 @@
 			}
 		}
     </script>
-
-
-
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-		var elements = document.getElementsByClassName("frame");
-		var anger_count = 0;
-		var contempt_count = 0;
-		var disgust_count = 0;
-		var fear_count = 0;
-		var happiness_count = 0;
-		var neutral_count = 0;
-		var sadness_count = 0;
-		var surprise_count = 0;
-		var unknown_count = 0;
-			for (var i = 0; i < elements.length; i++) {
-				var element = elements[i];
-				var ident = element.id;
-				var thumbnailURL = element.getAttribute("data-thumbnailURL");
-				var request = new XMLHttpRequest();
-				request.addEventListener("load", function() {
-					var response = JSON.parse(this.responseText);
-					var label = response.raw_label;
-					console.log(label);
-					switch(label){
-						case "anger":
-							anger_count++;
-							break;
-						case "contempt":
-							contempt_count++;
-							break;
-						case "disgust":
-							disgust_count++;
-							break;
-						case "fear":
-							fear_count++;
-							break;
-						case "happiness":
-							happiness_count++;
-							break;
-						case "neutral":
-							neutral_count++;
-							break;
-						case "sadness":
-							sadness_count++;
-							break;
-						case "surprise":
-							surprise_count++;
-							break;
-						default:
-							unknown_count++;
-					}
-				});
-				//ident = "1222948688897299217_469024147";
-				//thumbnailURL = "https://scontent.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/12965844_192621721123594_583847765_n.jpg?ig_cache_key=MTIyMjk0ODY4ODg5NzI5OTIxNw%3D%3D.2.l"
-				request.open("GET", "/analyzeFaceSentiment?id=" + ident + "&url=" + encodeURIComponent(thumbnailURL));
-				request.send();
-			}
-        var pieChartDiv = document.getElementById('piechart');
-
-		if (pieChartDiv == null) {
-            console.log("The div holding the pie chart is not in the DOM");
-            return;
-        }
-        //alert(unknown_count);
-
-        var data = google.visualization.arrayToDataTable([
-          ['Label', 'Number'],
-          ['Anger',     anger_count],
-          ['Contempt',      contempt_count],
-          ['Disgust',     disgust_count],
-          ['Fear',     fear_count],
-          ['Happiness',     happiness_count],
-          ['Neutral',     neutral_count],
-          ['Sadness',     sadness_count],
-          ['Surprise',     surprise_count],
-          ['Unknown',     unknown_count]
-        ]);
-
-        var options = {
-          title: 'Like vs Non Like'
-        };
-
-        var chart = new google.visualization.PieChart(pieChartDiv);
-
-        chart.draw(data, options);
-      }
-    </script>
 </head>
 
-<body onload="pageLoaded()">
+<body>
 	<div id="header">
 		<p><a id="sidebarAnchor" href="javascript:toggleSidebar()">Show Filters &gt;</a></p>
 	</div>
@@ -203,7 +178,8 @@
 		<div class="clearFix"></div>
 	</div>
 
-	<div id="piechart" ></div>
+	<div id="piechart"></div>
+	<div id="textpiechart"></div>
 
 	<div id="footer">
 		<p><a href="/signOut">Sign Out</a></p>

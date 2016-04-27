@@ -102,8 +102,8 @@ def serve_face_sentiment():
     else:
         dict_ = algorithms.sentiment_captions2(photo.caption)
         if dict_ is not None:
-            the_max = max(dict_.iteritems(), key=operator.itemgetter(1))[0]
-            emoji = utilities.emoji_for_label_byNumber(the_max)
+            label = max(dict_.iteritems(), key=operator.itemgetter(1))[0]
+            emoji = utilities.emoji_for_label_byNumber(label)
 
     return json.dumps({
         #"label": utilities.emoji_for_label(label) if label is not None else "Unknown",
