@@ -6,11 +6,21 @@
 	<script type="text/javascript">
 		function pageLoaded() {
 			var elements = document.getElementsByClassName("frame");
+			var div_height = new Array(elements.length);
+			div_height[0] = 24;
 			for (var i = 0; i < elements.length; i++) {
 				var element = elements[i];
 				var ident = element.id;
 				var thumbnailURL = element.getAttribute("data-thumbnailURL");
-
+				var year = parseInt(element.getAttribute("data-year"));
+				var month = parseInt(element.getAttribute("data-month"));
+				var day = parseInt(element.getAttribute("data-day"));
+				if (i>=1){
+					var prev=(parseInt(elements[i-1].getAttribute("data-year"))-2013)*365+(parseInt(elements[i-1].getAttribute("data-month"))-1)*31+parseInt(elements[i-1].getAttribute("data-day"))-1;
+					var now=(year-2013)*365+(month-1)*31+(day-1);
+					var time_diff = prev-now;
+					div_height[i]=time_diff;
+				}
 				var request = new XMLHttpRequest();
 				request.addEventListener("load", function() {
 					var response = JSON.parse(this.responseText);
@@ -31,6 +41,20 @@
 				});
 				request2.open("GET", "/analyzeFaceSentiment?id=" + ident + "&url=" + encodeURIComponent(thumbnailURL));
 				request2.send();
+			}
+			var total=0;
+			for (var i = 1; i < elements.length; i++) {
+				total = total + div_height[i];
+			}
+			for (var i = 1; i < elements.length; i++) {
+				var final_height = div_height[i]*24*(elements.length-1)/total;
+				if(final_height<24){
+					final_height=24;
+				}
+				if(final_height>85){
+					final_height=85;
+				}
+				document.getElementById(elements[i].id).setAttribute("style","height:"+final_height+"px");
 			}
 		}
 
@@ -113,7 +137,7 @@
             console.log("The div holding the pie chart is not in the DOM");
             return;
         }
-        alert(unknown_count);
+        //alert(unknown_count);
 
         var data = google.visualization.arrayToDataTable([
           ['Label', 'Number'],
@@ -153,7 +177,7 @@
 
 			{% for photo in photos %}
 			<a class="photoLink" href="/photo/{{ photo.identifier }}">
-				<div id="{{ photo.identifier }}" data-thumbnailURL="{{ photo.thumbnail_url }}" class="frame">
+				<div id="{{ photo.identifier }}" data-thumbnailURL="{{ photo.thumbnail_url }}" data-year="{{ photo.creation_date.year }}" data-month="{{ photo.creation_date.month }}" data-day="{{ photo.creation_date.day }}" class="frame">
                     <p class="emoji"></p>
 					<p class="info">{{ photo.likes }} &hearts; &nbsp; {{ photo.creation_date.strftime('%m/%d/%Y %I:%M %p') }}</p>
 				</div>

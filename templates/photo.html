@@ -5,7 +5,7 @@
 	<script type="text/javascript">
 		var ident = "{{ photo.identifier }}";
 		var thumbnailURL = "{{ photo.standard_resolution_url }}";
-		alert(ident+"+and+"+thumbnailURL);
+		//alert(ident+"+and+"+thumbnailURL);
 		var request = new XMLHttpRequest();
 		request.addEventListener("load", function() {
 			var response = JSON.parse(this.responseText);
