@@ -35,8 +35,9 @@
 					var response = JSON.parse(this.responseText);
 					var label = response.label;
                     if (label != "Unknown") {
-                        var emojiLabel = document.getElementById(response.identifier).getElementsByClassName("emoji")[0];
-                        emojiLabel.innerText = label;
+                        var emojiLabel = document.getElementById(response.identifier).getElementsByClassName("emoticon")[0];
+                        emojiLabel.src = "/static/images/" + label;
+						emojiLabel.style.visibility = "visible";
                     }
 				});
 				request2.open("GET", "/analyzeFaceSentiment?id=" + ident + "&url=" + encodeURIComponent(thumbnailURL));
@@ -178,7 +179,7 @@
 			{% for photo in photos %}
 			<a class="photoLink" href="/photo/{{ photo.identifier }}">
 				<div id="{{ photo.identifier }}" data-thumbnailURL="{{ photo.thumbnail_url }}" data-year="{{ photo.creation_date.year }}" data-month="{{ photo.creation_date.month }}" data-day="{{ photo.creation_date.day }}" class="frame">
-                    <p class="emoji"></p>
+                    <img class="emoticon" width="24" height="24"></img>
 					<p class="info">{{ photo.likes }} &hearts; &nbsp; {{ photo.creation_date.strftime('%m/%d/%Y %I:%M %p') }}</p>
 				</div>
 			</a>

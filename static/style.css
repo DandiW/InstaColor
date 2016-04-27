@@ -82,11 +82,11 @@ div#userInfo img {
 a.photoLink {
 	text-decoration: none;
 }
-a.photoLink p.emoji {
+a.photoLink img.emoticon {
+	visibility: hidden;
     float: left;
     margin: 0;
     padding: 0;
-   
 }
 a.photoLink p.info {
 	visibility: hidden;
