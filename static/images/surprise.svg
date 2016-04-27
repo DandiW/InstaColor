@@ -2,12 +2,12 @@
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="200px" height="200px" viewBox="0 0 200 200" enable-background="new 0 0 200 200" xml:space="preserve">
-<path d="M143.963,132.235c0,6.627-5.373,12-12,12H65.631c-6.627,0-12-5.373-12-12V65.903c0-6.627,5.373-12,12-12h66.332
-	c6.627,0,12,5.373,12,12V132.235z"/>
-<circle fill="#FFFFFF" cx="75.384" cy="75.281" r="6.344"/>
-<circle fill="#FFFFFF" cx="121.003" cy="75.281" r="6.345"/>
-<ellipse fill="#FFFFFF" cx="98.613" cy="115.193" rx="16.465" ry="20.091"/>
-<path fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M61.354,67.11c0.045-4.007,3.324-7.214,7.331-7.168"/>
-<path fill="none" stroke="#FFFFFF" stroke-miterlimit="10" d="M136.686,67.11c-0.045-4.007-3.324-7.214-7.331-7.168"/>
+	 width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M24,20.825C24,22.578,22.579,24,20.826,24H3.284
+	c-1.753,0-3.174-1.422-3.174-3.175V3.283c0-1.753,1.421-3.174,3.174-3.174h17.542C22.579,0.109,24,1.53,24,3.283V20.825z"/>
+<circle fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" cx="5.863" cy="5.763" r="1.678"/>
+<circle fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" cx="17.927" cy="5.763" r="1.678"/>
+<ellipse fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" cx="12.006" cy="16.318" rx="4.354" ry="5.313"/>
+<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M2.152,3.603c0.012-1.06,0.879-1.908,1.939-1.896"/>
+<path fill="#FFFFFF" stroke="#000000" stroke-miterlimit="10" d="M22.076,3.603c-0.013-1.06-0.88-1.908-1.94-1.896"/>
 </svg>

@@ -86,7 +86,7 @@ a.photoLink img.emoticon {
 	visibility: hidden;
     float: left;
     margin: 0;
-    padding: 0;
+    padding: 3px;
 }
 a.photoLink p.info {
 	visibility: hidden;
