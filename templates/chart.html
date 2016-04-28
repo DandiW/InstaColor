@@ -73,10 +73,25 @@
 	        ]);
 			
 	        var options = {
-	          title: 'Mood Overview'
+				title: 'Mood Overview',
+				slices: {
+					0: { color: '#ce0000' },
+					1: { color: '#b11b9f' },
+					2: { color: '#6f006f' },
+					3: { color: '#3657dd' },
+					4: { color: '#3dde00' },
+					5: { color: '#bebebe' },
+					6: { color: '#0037a8' },
+					7: { color: '#00c987' },
+				}
 	        };
 			var textOptions = {
-			  title: "Text Overview"
+				title: "Text Overview",
+				slices: {
+					0: { color: '#bebebe' },
+					1: { color: '#ce0000' },
+					2: { color: '#3dde00' }
+				}
 			};
 			
 	        var faceChart = new google.visualization.PieChart(facePieChart);
@@ -96,12 +111,13 @@
 				<div id="{{ photo.identifier }}" data-thumbnailURL="{{ photo.thumbnail_url }}" class="frame">
 				</div>
 			{% endfor %}
+			
+			<div id="piechart"></div>
+			<div id="textpiechart"></div>
 		</div>
 		<div class="clearFix"></div>
 	</div>
 
-	<div id="piechart"></div>
-	<div id="textpiechart"></div>
 	<div id="footer">
 		<p><a href="/signOut">Sign Out</a></p>
 	</div>
