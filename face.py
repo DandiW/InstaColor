@@ -3,6 +3,7 @@
 import json
 import operator
 import requests
+import time
 
 RECOGNIZE_URL = 'https://api.projectoxford.ai/emotion/v1.0/recognize'
 KEY = '981cde578f8540b1957f8908b87c6c09'
