@@ -11,7 +11,10 @@
 		request.addEventListener("load", function() {
 			var response = JSON.parse(this.responseText);
 			var label = response.label;
-			document.getElementById("faceSentimentValue").innerText = label;
+			document.getElementById("faceSentimentValue").innerText = "";
+			var sentimentImage = document.getElementById("sentimentImage");
+			sentimentImage.style.visibility = "visible";
+			sentimentImage.src = "/static/images/" + label;
 		});
 		request.open("GET", "/analyzeFaceSentiment?id=" + ident + "&url=" + encodeURIComponent(thumbnailURL));
 		request.send();
@@ -34,7 +37,7 @@
 			
 				<li><span class="label">Filter:</span> {{ photo.filter }}</li>
 			
-				<li><span class="label">Sentiment:</span> <span id="faceSentimentValue">Analyzing...</span></li>
+				<li><span class="label">Sentiment:</span> <span id="faceSentimentValue">Analyzing...</span><img style="visibility: hidden" id="sentimentImage" width="20" height="20"></img></li>
 			
 				{% if photo.location is not none %}
 				<li><span class="label">Location:</span> {{ photo.location }}</li>
