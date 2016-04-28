@@ -115,7 +115,10 @@ def serve_face_sentiment():
     else:
         dict_ = algorithms.sentiment_captions2(photo.caption)
         if dict_ is not None:
-            label = max(dict_.iteritems(), key=operator.itemgetter(1))[0]
+            if dict_["neg"] < 0.0001 and dict_["pos"] < 0.0001:
+                label = "neu"
+            else:
+                label = max(dict_.iteritems(), key=operator.itemgetter(1))[0]
             emoji = utilities.emoji_for_label_byNumber(label)
 
     return json.dumps({

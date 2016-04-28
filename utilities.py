@@ -21,7 +21,7 @@ def emoji_for_label_byNumber(num):
     if num == "neu":
         return u'neutral.svg'
     elif num == "neg":
-        return u'anger.svg'
+        return u'sadness.svg'
     elif num == "pos":
         return u'happiness.svg'
     return "Ahh, missing Emoji"

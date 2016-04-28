@@ -161,6 +161,8 @@ def sentiment_captions2(caption):
     for sentence in lines_list:
         ss = sid.polarity_scores(sentence)
         for k in sorted(ss):
+            if k == "compound" or k == "neu":
+                continue
             if k in temp:
                 temp[k] += ss[k]
             else:
