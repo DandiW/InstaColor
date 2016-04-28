@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" href="/static/style.css" type="text/css" />
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(chartReady);
+		
+		var emotions = {};
+	  
+		function chartReady() {
+			var elements = document.getElementsByClassName("frame");
+			
+			emotions["anger"] = 0;
+			emotions["contempt"] = 0;
+			emotions["disgust"] = 0;
+			emotions["fear"] = 0;
+			emotions["happiness"] = 0;
+			emotions["neutral"] = 0;
+			emotions["sadness"] = 0;
+			emotions["surprise"] = 0;
+			emotions["pos"] = 0;
+			emotions["neu"] = 0;
+			emotions["neg"] = 0;
+			
+			for (var i = 0; i < elements.length; i++) {
+				var element = elements[i];
+				var ident = element.id;
+				var thumbnailURL = element.getAttribute("data-thumbnailURL");
+				var requestsCompleted = 0;
+                var request2 = new XMLHttpRequest();
+				request2.addEventListener("load", function() {
+					var response = JSON.parse(this.responseText);
+					var label = response.label;
+					var raw_label = response.raw_label;
+					
+					if (raw_label != "unknown") {
+						emotions[raw_label] += 1;
+					}
+					
+					requestsCompleted += 1;
+					
+					if (requestsCompleted == elements.length) {
+						finishedAnalyzingEmotions();
+					}
+				});
+				request2.open("GET", "/analyzeFaceSentiment?id=" + ident + "&url=" + encodeURIComponent(thumbnailURL));
+				request2.send();
+			}
+		}
+		
+		function finishedAnalyzingEmotions() {
+	        var facePieChart = document.getElementById('piechart');
+			var textPieChart = document.getElementById('textpiechart');
+	        var faceData = google.visualization.arrayToDataTable([
+	          ['Label', 'Number'],
+	          ['Anger',     emotions["anger"]],
+	          ['Contempt',      emotions["contempt"]],
+	          ['Disgust',     emotions["disgust"]],
+	          ['Fear',     emotions["fear"]],
+	          ['Happiness',     emotions["happiness"]],
+	          ['Neutral',     emotions["neutral"]],
+	          ['Sadness',     emotions["sadness"]],
+	          ['Surprise',     emotions["surprise"]]
+	        ]);
+	        var textData = google.visualization.arrayToDataTable([
+	          ['Label', 'Number'],
+	          ['Neutral',     emotions["neu"]],
+	          ['Negative',      emotions["neg"]],
+	          ['Positive',     emotions["pos"]]
+	        ]);
+			
+	        var options = {
+	          title: 'Mood Overview'
+	        };
+			var textOptions = {
+			  title: "Text Overview"
+			};
+			
+	        var faceChart = new google.visualization.PieChart(facePieChart);
+	        faceChart.draw(faceData, options);
+	        var textChart = new google.visualization.PieChart(textPieChart);
+	        textChart.draw(textData, textOptions);
+		}
+
+    </script>
+</head>
+
+<body>
+
+	<div id="holder">
+		<div id="container">
+			{% for photo in photos %}
+				<div id="{{ photo.identifier }}" data-thumbnailURL="{{ photo.thumbnail_url }}" class="frame">
+				</div>
+			{% endfor %}
+		</div>
+		<div class="clearFix"></div>
+	</div>
+
+	<div id="piechart"></div>
+	<div id="textpiechart"></div>
+	<div id="footer">
+		<p><a href="/signOut">Sign Out</a></p>
+	</div>
+</body>
+</html>

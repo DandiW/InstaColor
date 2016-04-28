@@ -54,23 +54,12 @@
 				request2.addEventListener("load", function() {
 					var response = JSON.parse(this.responseText);
 					var label = response.label;
-					var raw_label = response.raw_label;
 					
                     if (label != "Unknown") {
                         var emojiLabel = document.getElementById(response.identifier).getElementsByClassName("emoticon")[0];
                         emojiLabel.src = "/static/images/" + label;
 						emojiLabel.style.visibility = "visible";
-                    }
-					
-					if (raw_label != "unknown") {
-						emotions[raw_label] += 1;
-					}
-					
-					requestsCompleted += 1;
-					
-					if (requestsCompleted == elements.length) {
-						finishedAnalyzingEmotions();
-					}
+                    }					
 				});
 				request2.open("GET", "/analyzeFaceSentiment?id=" + ident + "&url=" + encodeURIComponent(thumbnailURL));
 				request2.send();
@@ -91,40 +80,6 @@
 			}
 		}
 		
-		function finishedAnalyzingEmotions() {
-	        var facePieChart = document.getElementById('piechart');
-			var textPieChart = document.getElementById('textpiechart');
-	        var faceData = google.visualization.arrayToDataTable([
-	          ['Label', 'Number'],
-	          ['Anger',     emotions["anger"]],
-	          ['Contempt',      emotions["contempt"]],
-	          ['Disgust',     emotions["disgust"]],
-	          ['Fear',     emotions["fear"]],
-	          ['Happiness',     emotions["happiness"]],
-	          ['Neutral',     emotions["neutral"]],
-	          ['Sadness',     emotions["sadness"]],
-	          ['Surprise',     emotions["surprise"]]
-	        ]);
-	        var textData = google.visualization.arrayToDataTable([
-	          ['Label', 'Number'],
-	          ['Neutral',     emotions["neu"]],
-	          ['Negative',      emotions["neg"]],
-	          ['Positive',     emotions["pos"]]
-	        ]);
-			
-	        var options = {
-	          title: 'Mood Overview'
-	        };
-			var textOptions = {
-			  title: "Text Overview"
-			};
-			
-	        var faceChart = new google.visualization.PieChart(facePieChart);
-	        faceChart.draw(faceData, options);
-	        var textChart = new google.visualization.PieChart(textPieChart);
-	        textChart.draw(textData, textOptions);
-		}
-
 		function toggleSidebar() {
 			var sidebar = document.getElementById("sidebar");
 			var sidebarAnchor = document.getElementById("sidebarAnchor");
@@ -178,9 +133,7 @@
 		<div class="clearFix"></div>
 	</div>
 
-	<div id="piechart"></div>
-	<div id="textpiechart"></div>
-
+	<a href="/chart/self" class="button">See Pie Chart</a>
 	<div id="footer">
 		<p><a href="/signOut">Sign Out</a></p>
 	</div>

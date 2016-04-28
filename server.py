@@ -67,6 +67,19 @@ def serve_stream(user):
     userInfo = client.get_user_info()
     return render_template('stream.html', photos=photos, user=userInfo, top_filters=top_filters, top_emoji=top_emoji)
 
+@app.route("/chart/<user>")
+def serve_chart(user):
+    access_token = load_access_token()
+    
+    if access_token is None:
+        return redirect("/", code=302)
+    
+    client = instagram.InstagramClient(access_token)
+    photos = client.get_photos_for_user(user)
+
+    userInfo = client.get_user_info()
+    return render_template('chart.html', photos=photos, user=userInfo)
+
 @app.route("/photo/<id>")
 def serve_photo(id):
     access_token = load_access_token()
