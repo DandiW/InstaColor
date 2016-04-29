@@ -154,4 +154,4 @@ def serve_root():
 		return redirect("/user", code=302)
 
 if __name__ == "__main__":
-	app.run()
+	app.run(threaded=True)
