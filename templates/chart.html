@@ -2,7 +2,7 @@
 <html>
 <head>
 	<link rel="stylesheet" href="/static/style.css" type="text/css" />
-
+    
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
 		google.charts.load('current', {'packages':['corechart']});
@@ -75,11 +75,11 @@
 	        var options = {
 				title: 'Mood Overview',
 				slices: {
-					0: { color: '#ce0000' },
+					0: { color: '#F4655B' },
 					1: { color: '#b11b9f' },
 					2: { color: '#6f006f' },
 					3: { color: '#3657dd' },
-					4: { color: '#3dde00' },
+					4: { color: '#6DBFB3' },
 					5: { color: '#bebebe' },
 					6: { color: '#0037a8' },
 					7: { color: '#00c987' },
@@ -89,8 +89,8 @@
 				title: "Text Overview",
 				slices: {
 					0: { color: '#bebebe' },
-					1: { color: '#ce0000' },
-					2: { color: '#3dde00' }
+					1: { color: '#F4655B' },
+					2: { color: '#6DBFB3' }
 				}
 			};
 			
@@ -104,11 +104,30 @@
 </head>
 
 <body>
+    <header id="mast" class="">
 
-	<div id="holder">
+
+<!-- Logo -->
+
+  	<h5 id="logo">
+  	  <a href="/stream/self"> Instagram-Mine</a> 
+    </h5>
+    
+    <a class ="nav-right" href="/chart/self">Emotion Analysis</a>
+    <a class ="nav-right" href="/stream/self">Color Timeline</a> 
+
+<!-- Main Nav-->
+
+<nav>
+		<div class="nav-background">
+	    </div>
+</nav>
+</header>
+
+	<div id="chart_holder">
 		<div id="container">
 			{% for photo in photos %}
-				<div id="{{ photo.identifier }}" data-thumbnailURL="{{ photo.thumbnail_url }}" class="frame">
+				<div style="display: none" id="{{ photo.identifier }}" data-thumbnailURL="{{ photo.thumbnail_url }}" class="frame">
 				</div>
 			{% endfor %}
 			

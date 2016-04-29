@@ -3,7 +3,8 @@
 <head>
 	<title>Instagram Timeline</title>
 	<link rel="stylesheet" href="/static/style.css" type="text/css" />
-
+ <link href='https://fonts.googleapis.com/css?family=Cabin|Pacifico' rel='stylesheet' type='text/css'>
+    
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
 		google.charts.load('current', {'packages':['corechart']});
@@ -59,8 +60,8 @@
                     if (label != "Unknown") {
                         var emojiLabel = document.getElementById(response.identifier).getElementsByClassName("emoticon")[0];
                         emojiLabel.src = "/static/images/" + label;
-						emojiLabel.style.visibility = "visible";
-                    }					
+						// emojiLabel.style.visibility = "visible";
+                    }
 				});
 				request2.open("GET", "/analyzeFaceSentiment?id=" + ident + "&url=" + encodeURIComponent(thumbnailURL));
 				request2.send();
@@ -92,12 +93,75 @@
 				sidebarAnchor.innerText = "Hide Filters >";
 			}
 		}
+
+		function toggleFaceEmotion() {
+			var emoji = document.getElementsByClassName("emoticon");
+			// loop
+			for (var i=0;i<emoji.length;i++){
+				var current = emoji[i];
+				if (current.src.indexOf("_text") == -1) {
+					if (current.style.visibility == "visible"){
+						current.style.visibility = "hidden";
+					}
+					else{
+						current.style.visibility = "visible";
+					}
+				} else {
+			    current.style.visibility = "hidden";
+				}
+			}
+		}
+
+		function toggleTextEmotion() {
+			var emoji = document.getElementsByClassName("emoticon");
+			// loop
+			for (var i=0;i<emoji.length;i++){
+				var current = emoji[i];
+				console.log(current.src);
+				if (current.src.indexOf("_text") != -1) {
+					if (current.style.visibility == "visible"){
+						current.style.visibility = "hidden";
+					}
+					else{
+						current.style.visibility = "visible";
+					}
+				} else {
+					current.style.visibility = "hidden";
+				}
+			}
+		}
+        
+
     </script>
+    
 </head>
 
+<header >
+
+
+<!-- Logo -->
+
+  	<h5 id="logo">
+  	  <a href="/stream/self"> Instagram-Mine</a> 
+    </h5>
+    
+    <a class ="nav-right" href="/chart/self">Emotion Analysis</a>
+    <a class ="nav-right" href="/stream/self">Color Timeline</a> 
+
+<!-- Main Nav-->
+
+<nav>
+		<div class="nav-background">
+	    </div>
+</nav>
+</header>
+
 <body>
-	<div id="header">
-		<p><a href="/chart/self">Show Mood Overview</a> &nbsp; <a id="sidebarAnchor" href="javascript:toggleSidebar()">Show Filters &gt;</a></p>
+	<div id="button_bar">
+		<p> <a id="sidebarAnchor" href="javascript:toggleSidebar()">Show Filters &gt;</a></p>
+		<a class="button1" onclick="toggleFaceEmotion()">Face Emotion</a>
+        <a class="button1" onclick="toggleTextEmotion()">Text Emotion</a>
+		
 	</div>
 
 	<div id="holder">
