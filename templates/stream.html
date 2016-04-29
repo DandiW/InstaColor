@@ -107,7 +107,7 @@
 						current.style.visibility = "visible";
 					}
 				} else {
-				current.style.visibility = "hidden";
+					current.style.visibility = "hidden";
 				}
 			}
 		}
@@ -117,7 +117,6 @@
 			// loop
 			for (var i=0;i<emoji.length;i++){
 				var current = emoji[i];
-				console.log(current.src);
 				if (current.src.indexOf("_text") != -1) {
 					if (current.style.visibility == "visible"){
 						current.style.visibility = "hidden";
