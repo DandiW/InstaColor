@@ -4,9 +4,9 @@
 	<title>Instagram Timeline</title>
 	<link rel="stylesheet" href="/static/style.css" type="text/css" />
  <link href='https://fonts.googleapis.com/css?family=Cabin|Pacifico' rel='stylesheet' type='text/css'>
-    
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
+	
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<script type="text/javascript">
 		google.charts.load('current', {'packages':['corechart']});
 		google.charts.setOnLoadCallback(chartReady);
 		
@@ -50,18 +50,18 @@
 				});
 				request.open("GET", "/analyzeColor?id=" + ident + "&url=" + encodeURIComponent(thumbnailURL));
 				request.send();
-                
+				
 				var requestsCompleted = 0;
-                var request2 = new XMLHttpRequest();
+				var request2 = new XMLHttpRequest();
 				request2.addEventListener("load", function() {
 					var response = JSON.parse(this.responseText);
 					var label = response.label;
 					
-                    if (label != "Unknown") {
-                        var emojiLabel = document.getElementById(response.identifier).getElementsByClassName("emoticon")[0];
-                        emojiLabel.src = "/static/images/" + label;
+					if (label != "Unknown") {
+						var emojiLabel = document.getElementById(response.identifier).getElementsByClassName("emoticon")[0];
+						emojiLabel.src = "/static/images/" + label;
 						// emojiLabel.style.visibility = "visible";
-                    }
+					}
 				});
 				request2.open("GET", "/analyzeFaceSentiment?id=" + ident + "&url=" + encodeURIComponent(thumbnailURL));
 				request2.send();
@@ -107,7 +107,7 @@
 						current.style.visibility = "visible";
 					}
 				} else {
-			    current.style.visibility = "hidden";
+				current.style.visibility = "hidden";
 				}
 			}
 		}
@@ -130,10 +130,10 @@
 				}
 			}
 		}
-        
+		
 
-    </script>
-    
+	</script>
+	
 </head>
 
 <header >
@@ -141,18 +141,18 @@
 
 <!-- Logo -->
 
-  	<h5 id="logo">
-  	  <a href="/stream/self"> Instagram-Mine</a> 
-    </h5>
-    
-    <a class ="nav-right" href="/chart/self">Emotion Analysis</a>
-    <a class ="nav-right" href="/stream/self">Color Timeline</a> 
+	<h5 id="logo">
+	  <a href="/stream/self"> Instagram-Mine</a> 
+	</h5>
+	
+	<a class ="nav-right" href="/chart/self">Emotion Analysis</a>
+	<a class ="nav-right" href="/stream/self">Color Timeline</a> 
 
 <!-- Main Nav-->
 
 <nav>
 		<div class="nav-background">
-	    </div>
+		</div>
 </nav>
 </header>
 
@@ -160,7 +160,7 @@
 	<div id="button_bar">
 		<p> <a id="sidebarAnchor" href="javascript:toggleSidebar()">Show Filters &gt;</a></p>
 		<a class="button1" onclick="toggleFaceEmotion()">Face Emotion</a>
-        <a class="button1" onclick="toggleTextEmotion()">Text Emotion</a>
+		<a class="button1" onclick="toggleTextEmotion()">Text Emotion</a>
 		
 	</div>
 
@@ -174,7 +174,7 @@
 			{% for photo in photos %}
 			<a class="photoLink" href="/photo/{{ photo.identifier }}">
 				<div id="{{ photo.identifier }}" data-thumbnailURL="{{ photo.thumbnail_url }}" data-year="{{ photo.creation_date.year }}" data-month="{{ photo.creation_date.month }}" data-day="{{ photo.creation_date.day }}" class="frame">
-                    <img class="emoticon" width="18" height="18"></img>
+					<img class="emoticon" width="18" height="18"></img>
 					<p class="info">{{ photo.likes }} &hearts; &nbsp; {{ photo.creation_date.strftime('%m/%d/%Y %I:%M %p') }}</p>
 				</div>
 			</a>
