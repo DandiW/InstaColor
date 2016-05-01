@@ -50,16 +50,9 @@ div#container *:first-child {
 div#container h1 {
 	font-weight: 200;
 	text-align: center;
-	color: #76533D;
+	color: #006D6A;
 }
-a.button {
-	color: #76533D;
-	border: 1px solid #76533D;
-	padding: 6px 10px;
-	border-radius: 8px;
-	text-decoration: none;
-	background-color: #E6DFD1;
-}
+
 a:hover {
 	color: #6DBFB3;
 }
